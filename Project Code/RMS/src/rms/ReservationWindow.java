@@ -46,6 +46,11 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         myCalendar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/calendarIcon.jpg"))); // NOI18N
         myCalendar2.setMargin(new java.awt.Insets(0, 14, 2, 14));
+        myCalendar2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                myCalendar2PropertyChange(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lunch", "Dinner" }));
         jComboBox1.setName("cbTime"); // NOI18N
@@ -112,8 +117,8 @@ public class ReservationWindow extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
@@ -162,6 +167,13 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void myCalendar2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_myCalendar2PropertyChange
+        if(evt.getPropertyName().equals("ToolTipText"))
+        {
+            jTextField1.setText(myCalendar2.getToolTipText());
+        }
+    }//GEN-LAST:event_myCalendar2PropertyChange
 
     /**
      * @param args the command line arguments
