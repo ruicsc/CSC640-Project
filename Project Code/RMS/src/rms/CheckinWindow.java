@@ -10,7 +10,7 @@ package rms;
  *
  * @author Ben
  */
-public class CheckinWindow extends javax.swing.JFrame {
+public class CheckinWindow extends javax.swing.JDialog {
 
     /**
      * Creates new form CheckinWindow

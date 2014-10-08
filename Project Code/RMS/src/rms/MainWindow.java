@@ -98,24 +98,28 @@ public class MainWindow extends javax.swing.JFrame {
     private void ReservationButtonClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReservationButtonClicked
         // TODO add your handling code here:
         ReservationWindow reservation = new ReservationWindow();
+        reservation.setModal(true);
         reservation.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_ReservationButtonClicked
 
     private void CheckinButtonClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckinButtonClicked
         // TODO add your handling code here:
         CheckinWindow checkin = new CheckinWindow();
+        checkin.setModal(true);
         checkin.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_CheckinButtonClicked
 
     private void OrderButtonClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrderButtonClicked
         // TODO add your handling code here:
         OrderWindow order = new OrderWindow();
+        order.setModal(true);
         order.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_OrderButtonClicked
 
     private void CheckoutButtonClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CheckoutButtonClicked
         // TODO add your handling code here:
         CheckoutWindow checkout = new CheckoutWindow();
+        checkout.setModal(true);
         checkout.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_CheckoutButtonClicked
 

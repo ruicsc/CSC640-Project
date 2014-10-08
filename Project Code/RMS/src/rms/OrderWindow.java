@@ -10,7 +10,7 @@ package rms;
  *
  * @author Ben
  */
-public class OrderWindow extends javax.swing.JFrame {
+public class OrderWindow extends javax.swing.JDialog {
 
     /**
      * Creates new form OrderWindow
