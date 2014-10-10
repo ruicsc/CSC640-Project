@@ -7,7 +7,10 @@
 package rms;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 
 public class ReservationWindow extends javax.swing.JDialog {
@@ -15,7 +18,13 @@ public class ReservationWindow extends javax.swing.JDialog {
 
     public ReservationWindow() {
         initComponents();
+        
         availableTables.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JTableHeader tableHeader = availableTables.getTableHeader();
+        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) tableHeader  
+                    .getDefaultRenderer();  
+        renderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        
         setTitle("Reservation");
     }
 
@@ -40,6 +49,7 @@ public class ReservationWindow extends javax.swing.JDialog {
         txtCustName = new javax.swing.JTextField();
         txtCellPhone = new javax.swing.JTextField();
         btnReserve = new javax.swing.JButton();
+        cbQuickCheckin = new javax.swing.JCheckBox();
 
         setLocationByPlatform(true);
 
@@ -80,7 +90,7 @@ public class ReservationWindow extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Table Size", "Available"
+                "Table Size", "Free Tables"
             }
         ) {
             Class[] types = new Class [] {
@@ -131,14 +141,12 @@ public class ReservationWindow extends javax.swing.JDialog {
         btnReserve.setLabel("Reserve");
         btnReserve.setName("btnReserve"); // NOI18N
 
+        cbQuickCheckin.setText("Quick Checkin");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -159,11 +167,16 @@ public class ReservationWindow extends javax.swing.JDialog {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbQuickCheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCustName)
                             .addComponent(txtCellPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
-                        .addGap(27, 27, 27)
+                        .addGap(18, 18, 18)
                         .addComponent(btnReserve)))
                 .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,9 +198,12 @@ public class ReservationWindow extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtCellPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCellPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbQuickCheckin)
                     .addComponent(btnReserve))
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         pack();
@@ -231,6 +247,13 @@ public class ReservationWindow extends javax.swing.JDialog {
         tableModel.addRow(new String[] {"4","6"});
         tableModel.addRow(new String[] {"6","6"});
         tableModel.addRow(new String[] {"8","2"});
+        
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+
+        render.setHorizontalAlignment(SwingConstants.CENTER);
+
+        availableTables.getColumn("Table Size").setCellRenderer(render);
+        availableTables.getColumn("Free Tables").setCellRenderer(render);
         
         availableTables.invalidate();
     }//GEN-LAST:event_btnSearchMouseClicked
@@ -292,6 +315,7 @@ public class ReservationWindow extends javax.swing.JDialog {
     private javax.swing.JTable availableTables;
     private javax.swing.JButton btnReserve;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JCheckBox cbQuickCheckin;
     private javax.swing.JComboBox cbSize;
     private javax.swing.JComboBox cbTime;
     private javax.swing.JLabel jLabel1;
