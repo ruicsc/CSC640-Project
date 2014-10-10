@@ -6,17 +6,16 @@
 
 package rms;
 
-/**
- *
- * @author Ben
- */
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+
 public class ReservationWindow extends javax.swing.JDialog {
 
-    /**
-     * Creates new form ReservationWindow
-     */
+
     public ReservationWindow() {
         initComponents();
+        availableTables.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setTitle("Reservation");
     }
 
@@ -30,17 +29,17 @@ public class ReservationWindow extends javax.swing.JDialog {
     private void initComponents() {
 
         myCalendar2 = new rms.MyCalendar();
-        jComboBox1 = new javax.swing.JComboBox();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        cbTime = new javax.swing.JComboBox();
+        txtDate = new javax.swing.JTextField();
+        cbSize = new javax.swing.JComboBox();
+        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         availableTables = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        txtCustName = new javax.swing.JTextField();
+        txtCellPhone = new javax.swing.JTextField();
+        btnReserve = new javax.swing.JButton();
 
         setLocationByPlatform(true);
 
@@ -52,24 +51,33 @@ public class ReservationWindow extends javax.swing.JDialog {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lunch", "Dinner" }));
-        jComboBox1.setName("cbTime"); // NOI18N
+        cbTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lunch", "Dinner" }));
+        cbTime.setName("cbTime"); // NOI18N
 
-        jTextField1.setMargin(new java.awt.Insets(2, 2, 0, 2));
-        jTextField1.setName("txtDate"); // NOI18N
+        txtDate.setEditable(false);
+        txtDate.setMargin(new java.awt.Insets(2, 2, 0, 2));
+        txtDate.setName("txtDate"); // NOI18N
+        txtDate.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtDateCaretUpdate(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Any", "2", "4", "8" }));
-        jComboBox2.setName("cbSize"); // NOI18N
+        cbSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Any", "2", "4", "8" }));
+        cbSize.setName("cbSize"); // NOI18N
 
-        jButton1.setText("Search");
-        jButton1.setName("btnSearch"); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.setEnabled(false);
+        btnSearch.setName("btnSearch"); // NOI18N
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchMouseClicked(evt);
+            }
+        });
 
         availableTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Table Size", "Available"
@@ -90,6 +98,12 @@ public class ReservationWindow extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        availableTables.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        availableTables.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                availableTablesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(availableTables);
         if (availableTables.getColumnModel().getColumnCount() > 0) {
             availableTables.getColumnModel().getColumn(1).setResizable(false);
@@ -99,12 +113,23 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         jLabel2.setText("Cell Phone:");
 
-        jTextField2.setName("txtCustName"); // NOI18N
+        txtCustName.setName("txtCustName"); // NOI18N
+        txtCustName.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtCustNameCaretUpdate(evt);
+            }
+        });
 
-        jTextField3.setName("txtCellPhone"); // NOI18N
+        txtCellPhone.setName("txtCellPhone"); // NOI18N
+        txtCellPhone.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtCellPhoneCaretUpdate(evt);
+            }
+        });
 
-        jButton2.setLabel("Reserve");
-        jButton2.setName("btnReserve"); // NOI18N
+        btnReserve.setEnabled(false);
+        btnReserve.setLabel("Reserve");
+        btnReserve.setName("btnReserve"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,15 +143,15 @@ public class ReservationWindow extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(57, 57, 57)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
-                        .addComponent(jButton1))
+                        .addComponent(btnSearch))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(115, 115, 115)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -134,10 +159,10 @@ public class ReservationWindow extends javax.swing.JDialog {
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
+                            .addComponent(txtCustName)
+                            .addComponent(txtCellPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                         .addGap(27, 27, 27)
-                        .addComponent(jButton2)))
+                        .addComponent(btnReserve)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -146,22 +171,22 @@ public class ReservationWindow extends javax.swing.JDialog {
                 .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1)
-                        .addComponent(jComboBox2)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbTime)
+                        .addComponent(cbSize)
+                        .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(myCalendar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(txtDate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCustName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(txtCellPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReserve))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
 
@@ -171,10 +196,63 @@ public class ReservationWindow extends javax.swing.JDialog {
     private void myCalendar2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_myCalendar2PropertyChange
         if(evt.getPropertyName().equals("ToolTipText"))
         {
-            jTextField1.setText(myCalendar2.getToolTipText());
+            txtDate.setText(myCalendar2.getToolTipText());
         }
     }//GEN-LAST:event_myCalendar2PropertyChange
 
+    private void txtDateCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtDateCaretUpdate
+
+        if(!"".equals(txtDate.getText()))
+        {
+            btnSearch.setEnabled(true);
+        }
+        else 
+        {
+            btnSearch.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtDateCaretUpdate
+
+    private void txtCustNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCustNameCaretUpdate
+
+        setSearchButtonEnable();
+    }//GEN-LAST:event_txtCustNameCaretUpdate
+
+    private void txtCellPhoneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCellPhoneCaretUpdate
+
+        setSearchButtonEnable();
+    }//GEN-LAST:event_txtCellPhoneCaretUpdate
+
+    private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
+
+        //search database
+        DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
+        tableModel.setRowCount(0);
+        
+        tableModel.addRow(new String[] {"4","6"});
+        tableModel.addRow(new String[] {"6","6"});
+        tableModel.addRow(new String[] {"8","2"});
+        
+        availableTables.invalidate();
+    }//GEN-LAST:event_btnSearchMouseClicked
+
+    private void availableTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availableTablesMouseClicked
+
+        setSearchButtonEnable();
+    }//GEN-LAST:event_availableTablesMouseClicked
+
+    private void setSearchButtonEnable()
+    {
+        int selectRows=availableTables.getSelectedRows().length;
+        if(!"".equals(txtCustName.getText()) && !"".equals(txtCellPhone.getText()) && selectRows > 0)
+        {
+            btnReserve.setEnabled(true);
+        }
+        else
+        {
+            btnReserve.setEnabled(false);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -212,16 +290,16 @@ public class ReservationWindow extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable availableTables;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton btnReserve;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JComboBox cbSize;
+    private javax.swing.JComboBox cbTime;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private rms.MyCalendar myCalendar2;
+    private javax.swing.JTextField txtCellPhone;
+    private javax.swing.JTextField txtCustName;
+    private javax.swing.JTextField txtDate;
     // End of variables declaration//GEN-END:variables
 }

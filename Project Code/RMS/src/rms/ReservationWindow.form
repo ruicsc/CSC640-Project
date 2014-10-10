@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="locationByPlatform" type="boolean" value="true"/>
   </Properties>
@@ -32,15 +32,15 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="88" max="-2" attributes="0"/>
+                      <Component id="txtDate" min="-2" pref="88" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="myCalendar2" min="-2" pref="21" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbTime" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbSize" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSearch" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
@@ -50,11 +50,11 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField2" max="32767" attributes="0"/>
-                          <Component id="jTextField3" pref="104" max="32767" attributes="0"/>
+                          <Component id="txtCustName" max="32767" attributes="0"/>
+                          <Component id="txtCellPhone" pref="104" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnReserve" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="20" max="32767" attributes="0"/>
@@ -67,25 +67,25 @@
               <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jComboBox1" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jComboBox2" alignment="3" max="32767" attributes="0"/>
-                      <Component id="jButton1" alignment="3" max="32767" attributes="0"/>
+                      <Component id="cbTime" alignment="3" max="32767" attributes="0"/>
+                      <Component id="cbSize" alignment="3" max="32767" attributes="0"/>
+                      <Component id="btnSearch" alignment="3" max="32767" attributes="0"/>
                   </Group>
                   <Component id="myCalendar2" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtDate" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="114" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtCustName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtCellPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnReserve" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="135" max="32767" attributes="0"/>
           </Group>
@@ -106,7 +106,7 @@
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="myCalendar2PropertyChange"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="cbTime">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
@@ -117,15 +117,19 @@
         <Property name="name" type="java.lang.String" value="cbTime" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="txtDate">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[2, 2, 0, 2]"/>
         </Property>
         <Property name="name" type="java.lang.String" value="txtDate" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtDateCaretUpdate"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox2">
+    <Component class="javax.swing.JComboBox" name="cbSize">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -138,11 +142,15 @@
         <Property name="name" type="java.lang.String" value="cbSize" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnSearch">
       <Properties>
         <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnSearch" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSearchMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -154,7 +162,7 @@
         <Component class="javax.swing.JTable" name="availableTables">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="2" rowCount="4">
+              <Table columnCount="2" rowCount="0">
                 <Column editable="false" title="Table Size" type="java.lang.Integer"/>
                 <Column editable="false" title="Available" type="java.lang.Integer"/>
               </Table>
@@ -173,10 +181,16 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
+              <JTableSelectionModel selectionMode="0"/>
+            </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="availableTablesMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -190,18 +204,25 @@
         <Property name="text" type="java.lang.String" value="Cell Phone:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="txtCustName">
       <Properties>
         <Property name="name" type="java.lang.String" value="txtCustName" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtCustNameCaretUpdate"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="txtCellPhone">
       <Properties>
         <Property name="name" type="java.lang.String" value="txtCellPhone" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="txtCellPhoneCaretUpdate"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnReserve">
       <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="label" type="java.lang.String" value="Reserve"/>
         <Property name="name" type="java.lang.String" value="btnReserve" noResource="true"/>
       </Properties>
