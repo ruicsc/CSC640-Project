@@ -6,6 +6,7 @@
 
 package rms;
 
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -140,6 +141,11 @@ public class ReservationWindow extends javax.swing.JDialog {
         btnReserve.setEnabled(false);
         btnReserve.setLabel("Reserve");
         btnReserve.setName("btnReserve"); // NOI18N
+        btnReserve.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnReserveMouseClicked(evt);
+            }
+        });
 
         cbQuickCheckin.setText("Quick Checkin");
 
@@ -262,6 +268,11 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         setSearchButtonEnable();
     }//GEN-LAST:event_availableTablesMouseClicked
+
+    private void btnReserveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReserveMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null,"Reserve Successfully!");
+    }//GEN-LAST:event_btnReserveMouseClicked
 
     private void setSearchButtonEnable()
     {

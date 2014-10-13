@@ -231,6 +231,9 @@
         <Property name="label" type="java.lang.String" value="Reserve"/>
         <Property name="name" type="java.lang.String" value="btnReserve" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnReserveMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbQuickCheckin">
       <Properties>
