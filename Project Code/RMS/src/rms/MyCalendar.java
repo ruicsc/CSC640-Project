@@ -58,14 +58,14 @@ public class MyCalendar extends JButton
         setDate(date);
         setBorder(null);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
-        super.addActionListener((ActionEvent e) -> 
-        {
-            if (dateChooser == null) {
-                dateChooser = new DateChooser();
-            }
+        super.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            if (dateChooser == null)
+             dateChooser = new DateChooser();
             Point p = getLocationOnScreen();
             p.y = p.y + 30;
             dateChooser.showDateChooser(p);
+           }
         });
     }
 
