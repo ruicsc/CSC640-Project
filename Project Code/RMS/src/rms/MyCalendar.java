@@ -189,7 +189,8 @@ public class MyCalendar extends JButton
             result.setLayout(new FlowLayout());
             result.setBackground(controlLineColor);
 
-            yearSpin = new JSpinner(new SpinnerNumberModel(currentYear, startYear, lastYear, 1));
+            yearSpin = new JSpinner(new SpinnerNumberModel(currentYear, 
+                    startYear, lastYear, 1));
             yearSpin.setPreferredSize(new Dimension(68, 30));
             yearSpin.setName("Year");
             yearSpin.setEditor(new JSpinner.NumberEditor(yearSpin, "####"));
@@ -200,7 +201,8 @@ public class MyCalendar extends JButton
             yearLabel.setForeground(controlTextColor);
             result.add(yearLabel);
 
-            monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 1, 12, 1));
+            monthSpin = new JSpinner(new SpinnerNumberModel(currentMonth, 
+                    1, 12, 1));
             monthSpin.setPreferredSize(new Dimension(45, 30));
             monthSpin.setName("Month");
             monthSpin.addChangeListener(this);
@@ -246,7 +248,8 @@ public class MyCalendar extends JButton
                     JButton numberButton = new JButton();
                     numberButton.setBorder(null);
                     numberButton.setHorizontalAlignment(SwingConstants.CENTER);
-                    numberButton.setActionCommand(String.valueOf(actionCommandId));
+                    numberButton
+                            .setActionCommand(String.valueOf(actionCommandId));
                     numberButton.addActionListener(this);
                     numberButton.setBackground(palletTableColor);
                     numberButton.setForeground(dateFontColor);
@@ -280,7 +283,8 @@ public class MyCalendar extends JButton
 
         void showDateChooser(Point position) 
         {
-            JDialog owner = (JDialog) SwingUtilities.getWindowAncestor(MyCalendar.this);
+            JDialog owner = (JDialog) SwingUtilities
+                    .getWindowAncestor(MyCalendar.this);
             if (dialog == null || dialog.getOwner() != owner) 
             {
                 dialog = createDialog(owner);
