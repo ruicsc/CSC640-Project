@@ -6,6 +6,10 @@
 
 package rms;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -236,37 +240,70 @@ public class ReservationWindow extends javax.swing.JDialog {
 
     private void txtCustNameCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCustNameCaretUpdate
 
-        setSearchButtonEnable();
+        setReserveButtonEnable();
     }//GEN-LAST:event_txtCustNameCaretUpdate
 
-    private void txtCellPhoneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCellPhoneCaretUpdate
-
-        setSearchButtonEnable();
-    }//GEN-LAST:event_txtCellPhoneCaretUpdate
-
+    private boolean CheckPhoneFormat(String phoneNumber)
+    {
+        if(phoneNumber.length()!=10)
+        {
+            return false;
+        }
+        
+        try
+        {
+            Integer.parseInt(phoneNumber);
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
+        
+        return true;
+    }
+    
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
-
-        //search database
-        DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
-        tableModel.setRowCount(0);
+        String date = txtDate.getText();
+        SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
+        Date dateTime = Calendar.getInstance().getTime();
         
-        tableModel.addRow(new String[] {"4","6"});
-        tableModel.addRow(new String[] {"6","6"});
-        tableModel.addRow(new String[] {"8","2"});
-        
-        DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+        try 
+        {
+            dateTime = formatDate.parse(date);
+        } 
+        catch (ParseException e) 
+        {
+            e.printStackTrace();
+        }
+        int compareResult = Calendar.getInstance().getTime().compareTo(dateTime);
+        if(compareResult==1)
+        {
+            JOptionPane.showMessageDialog(null,"Please select future days");
+        }
+        else
+        {
+            //search database
+            DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
+            tableModel.setRowCount(0);
 
-        render.setHorizontalAlignment(SwingConstants.CENTER);
+            tableModel.addRow(new String[] {"4","6"});
+            tableModel.addRow(new String[] {"6","6"});
+            tableModel.addRow(new String[] {"8","2"});
 
-        availableTables.getColumn("Table Size").setCellRenderer(render);
-        availableTables.getColumn("Free Tables").setCellRenderer(render);
-        
-        availableTables.invalidate();
+            DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+
+            render.setHorizontalAlignment(SwingConstants.CENTER);
+
+            availableTables.getColumn("Table Size").setCellRenderer(render);
+            availableTables.getColumn("Free Tables").setCellRenderer(render);
+
+            availableTables.invalidate();
+        }
     }//GEN-LAST:event_btnSearchMouseClicked
 
     private void availableTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availableTablesMouseClicked
 
-        setSearchButtonEnable();
+        setReserveButtonEnable();
     }//GEN-LAST:event_availableTablesMouseClicked
 
     private void btnReserveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReserveMouseClicked
@@ -274,7 +311,19 @@ public class ReservationWindow extends javax.swing.JDialog {
         JOptionPane.showMessageDialog(null,"Reserve Successfully!");
     }//GEN-LAST:event_btnReserveMouseClicked
 
-    private void setSearchButtonEnable()
+    private void txtCellPhoneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCellPhoneCaretUpdate
+        // TODO add your handling code here:
+        if(CheckPhoneFormat(txtCellPhone.getText()))
+        {
+            setReserveButtonEnable();
+        }
+        else
+        {
+            btnReserve.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtCellPhoneCaretUpdate
+
+    private void setReserveButtonEnable()
     {
         int selectRows=availableTables.getSelectedRows().length;
         if(!"".equals(txtCustName.getText()) && !"".equals(txtCellPhone.getText()) && selectRows > 0)
