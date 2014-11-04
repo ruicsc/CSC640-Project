@@ -6,10 +6,20 @@
 
 package rms;
 
+import entities.Table;
+import entities.Waiter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -68,6 +78,11 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         cbTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Lunch", "Dinner" }));
         cbTime.setName("cbTime"); // NOI18N
+        cbTime.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbTimeItemStateChanged(evt);
+            }
+        });
 
         txtDate.setEditable(false);
         txtDate.setMargin(new java.awt.Insets(2, 2, 0, 2));
@@ -80,6 +95,11 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         cbSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Any", "2", "4", "8" }));
         cbSize.setName("cbSize"); // NOI18N
+        cbSize.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbSizeItemStateChanged(evt);
+            }
+        });
 
         btnSearch.setText("Search");
         btnSearch.setEnabled(false);
@@ -262,10 +282,127 @@ public class ReservationWindow extends javax.swing.JDialog {
         return true;
     }
     
+    private ArrayList getAvailableTables(String date, String time, String size)
+    {
+        ArrayList tables = new ArrayList();
+        
+        if(!"Any".equals(size))
+        {
+            Table temp = getAvailableTable(date, time, size);
+            tables.add(temp);
+        }
+        else
+        {
+            Table temp1 = getAvailableTable(date, time, "2");
+            if(temp1!=null)
+            {
+                tables.add(temp1);
+            }
+            Table temp2 = getAvailableTable(date, time, "4");
+            if(temp2!=null)
+            {
+                tables.add(temp2);
+            }
+            Table temp3 = getAvailableTable(date, time, "8");
+            if(temp3!=null)
+            {
+                tables.add(temp3);
+            }
+        }
+        return tables;
+    }
+    
+    private Table getAvailableTable(String date, String time, String size)
+    {
+        Connection cn = null;
+        Statement stmt = null;
+        Table rtTable = null;
+        
+        try {
+                //search database
+                Class.forName( "com.mysql.jdbc.Driver" );
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ReservationWindow.class.getName()).
+                        log(Level.SEVERE,
+                        null,
+                        ex);
+            }
+        try {
+            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+            
+        try {
+            stmt = cn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+        String sql = "SELECT * FROM tables where TableSize=" + size;
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next())
+            {
+                rtTable = new Table();
+                rtTable.setTableNumber(rs.getInt(2));
+                rtTable.setTableSize(rs.getInt(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+            
+        String sql1 = "SELECT count(*) FROM Reservation where " + 
+                "Date=" + "'" + date + "'" +
+                "and Time=" + "'" + time + "'" + 
+                "and TableSize=" + "'" + size + "'";
+        try {
+            ResultSet rs = stmt.executeQuery(sql1);
+            while(rs.next())
+            {
+                int exist = rs.getInt(1);
+                rtTable.setTableNumber(rtTable.getTableNumber()- exist);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+        
+        if(rtTable.getTableNumber()==0)
+        {
+            return null;
+        }
+        else
+        {
+            return rtTable;
+        }
+    }
+    
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
         String date = txtDate.getText();
         SimpleDateFormat formatDate = new SimpleDateFormat("MMM dd, yyyy");
         Date dateTime = Calendar.getInstance().getTime();
+        
+        String time = cbTime.getSelectedItem().toString();
+        String size = cbSize.getSelectedItem().toString();
         
         try 
         {
@@ -282,23 +419,37 @@ public class ReservationWindow extends javax.swing.JDialog {
         }
         else
         {
-            //search database
-            DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
-            tableModel.setRowCount(0);
+            ArrayList tables = new ArrayList();
+            tables = getAvailableTables(date,time,size);
+            
+            if(tables!=null)
+            {
+                DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
+                tableModel.setRowCount(0);
 
-            tableModel.addRow(new String[] {"4","6"});
-            tableModel.addRow(new String[] {"6","6"});
-            tableModel.addRow(new String[] {"8","2"});
+                for(int i=0;i<tables.size();i++)
+                {
+                    Table temp = (Table)tables.get(i);
+                    tableModel.addRow(
+                            new String[] {String.valueOf(temp.getTableSize()), String.valueOf(temp.getTableNumber())});
+                }
 
-            DefaultTableCellRenderer render = new DefaultTableCellRenderer();
+                DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 
-            render.setHorizontalAlignment(SwingConstants.CENTER);
+                render.setHorizontalAlignment(SwingConstants.CENTER);
 
-            availableTables.getColumn("Table Size").setCellRenderer(render);
-            availableTables.getColumn("Free Tables").setCellRenderer(render);
+                availableTables.getColumn("Table Size").setCellRenderer(render);
+                availableTables.getColumn("Free Tables").setCellRenderer(render);
 
-            availableTables.invalidate();
+                availableTables.invalidate();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"No table is available!");
+            }
         }
+        
+        setReserveButtonEnable();
     }//GEN-LAST:event_btnSearchMouseClicked
 
     private void availableTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_availableTablesMouseClicked
@@ -308,9 +459,142 @@ public class ReservationWindow extends javax.swing.JDialog {
 
     private void btnReserveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReserveMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,"Reserve Successfully!");
+        String custName = txtCustName.getText();
+        String cellPhone = txtCellPhone.getText();
+        String date = txtDate.getText();
+        String time = cbTime.getSelectedItem().toString();
+        int row = availableTables.getSelectedRow();
+        String tableSize = (String)availableTables.getModel().getValueAt(row,
+                        0);
+        String size = tableSize;
+        boolean result = makeReservation(custName, cellPhone, date, time, size, tableSize);
+        if(result)
+        {
+            JOptionPane.showMessageDialog(null,"Reserve Successfully!");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Reservation Failed!");
+        }
     }//GEN-LAST:event_btnReserveMouseClicked
 
+    private boolean makeReservation(String name, String phone, String date, String time, String size, String tableSize)
+    {
+        Connection cn = null;
+        Statement stmt = null;
+        Waiter waiter = null;
+        String waiterName = null;
+        
+        try {
+                //search database
+                Class.forName( "com.mysql.jdbc.Driver" );
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ReservationWindow.class.getName()).
+                        log(Level.SEVERE,
+                        null,
+                        ex);
+                return false;
+            }
+        try {
+            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+            return false;
+        }
+            
+        try {
+            stmt = cn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+            return false;
+        }
+        String sql = "SELECT * FROM Reservation where Time=" 
+                + "'" + time + "'" + "and Phone=" + "'" + phone + "'" + 
+                "and Date=" + "'" + date + "'";
+        try {
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next())
+            {
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+            return false;
+        }
+        
+        if(cbQuickCheckin.isSelected())
+        {
+            String sql2 = "SELECT * FROM waiter where " +
+                    "Capability > 0 order by Capability desc" ;
+            
+            try {
+            ResultSet rs = stmt.executeQuery(sql2);
+            if(rs.next())
+            {
+                waiter = new Waiter();
+                waiter.setName(rs.getString(1));
+                waiter.setWorkload(rs.getInt(2)-1);
+                waiterName = rs.getString(1);
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(ReservationWindow.class.getName()).
+                        log(Level.SEVERE,
+                        null,
+                        ex);
+                return false;
+            }
+            
+            String sql3 = "UPDATE waiter SET Capability=" +
+                    "'" + waiter.getWorkload() + "' " + "where WaiterName=" 
+                    + "'" + waiter.getName()+ "'";
+            
+            try {
+            stmt.executeUpdate(sql3);
+            } catch (SQLException ex) {
+                Logger.getLogger(ReservationWindow.class.getName()).
+                        log(Level.SEVERE,
+                        null,
+                        ex);
+                return false;
+            }
+        }
+            
+        String sql1 = "INSERT INTO Reservation " +
+                "(`CustName`, `Phone`, `Time`, `GroupSize`, " +
+                "`Waiter`, `TableNumber`, `TableSize`, `Date`) VALUES " + 
+                "(" + "'" +name + "'" +"," + "'" +phone + "'" +"," + "'" + 
+                time + "'" + "," + "'" + size + "'" + "," + "'" + waiterName + "'"
+                + "," + "'" +null + "'" + "," + "'" + tableSize + "'" + "," + 
+                "'" + date + "'" + ")";
+        try {
+            stmt.execute(sql1);
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+            return false;
+        }
+        try {
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReservationWindow.class.getName()).
+                    log(Level.SEVERE,
+                    null,
+                    ex);
+        }
+        return true;
+    }
+    
     private void txtCellPhoneCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtCellPhoneCaretUpdate
         // TODO add your handling code here:
         if(CheckPhoneFormat(txtCellPhone.getText()))
@@ -322,6 +606,20 @@ public class ReservationWindow extends javax.swing.JDialog {
             btnReserve.setEnabled(false);
         }
     }//GEN-LAST:event_txtCellPhoneCaretUpdate
+
+    private void cbTimeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbTimeItemStateChanged
+        // TODO add your handling code here:
+        DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
+        tableModel.setRowCount(0);
+        setReserveButtonEnable();
+    }//GEN-LAST:event_cbTimeItemStateChanged
+
+    private void cbSizeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbSizeItemStateChanged
+        // TODO add your handling code here:
+        DefaultTableModel tableModel = (DefaultTableModel) availableTables.getModel();
+        tableModel.setRowCount(0);
+        setReserveButtonEnable();
+    }//GEN-LAST:event_cbSizeItemStateChanged
 
     private void setReserveButtonEnable()
     {
@@ -371,6 +669,7 @@ public class ReservationWindow extends javax.swing.JDialog {
         });
     }
 
+    private String currentDate;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable availableTables;
     private javax.swing.JButton btnReserve;
