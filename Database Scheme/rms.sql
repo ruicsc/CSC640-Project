@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2014-09-25 23:27:21
+-- Generation Time: 2014-11-06 20:27:16
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -46,8 +46,18 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   `Time` varchar(255) NOT NULL,
   `GroupSize` int(255) NOT NULL,
   `Waiter` varchar(255) DEFAULT NULL,
-  `TableNumber` int(255) DEFAULT NULL
+  `TableNumber` int(255) DEFAULT NULL,
+  `TableSize` int(255) DEFAULT NULL,
+  `Date` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `reservation`
+--
+
+INSERT INTO `reservation` (`CustName`, `Phone`, `Time`, `GroupSize`, `Waiter`, `TableNumber`, `TableSize`, `Date`) VALUES
+('tim', '1234567890', 'Lunch', 4, 'null', 0, 4, 'Nov 19, 2014'),
+('ben', '1234567890', 'Lunch', 8, 'Josh', 0, 8, 'Nov 26, 2014');
 
 -- --------------------------------------------------------
 
@@ -60,6 +70,15 @@ CREATE TABLE IF NOT EXISTS `tables` (
   `AvailableNumber` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `tables`
+--
+
+INSERT INTO `tables` (`TableSize`, `AvailableNumber`) VALUES
+(2, 6),
+(4, 6),
+(8, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +89,15 @@ CREATE TABLE IF NOT EXISTS `waiter` (
   `WaiterName` varchar(255) NOT NULL,
   `Capability` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `waiter`
+--
+
+INSERT INTO `waiter` (`WaiterName`, `Capability`) VALUES
+('David', 3),
+('Tom', 3),
+('Josh', 5);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
