@@ -66,6 +66,7 @@ public class ReservationWindow extends javax.swing.JDialog {
         btnReserve = new javax.swing.JButton();
         cbQuickCheckin = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
+        txtTableNum = new javax.swing.JTextField();
 
         setLocationByPlatform(true);
 
@@ -176,6 +177,8 @@ public class ReservationWindow extends javax.swing.JDialog {
 
         jLabel3.setText("e.g. 1234567890");
 
+        txtTableNum.setName("txtTableNumber"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,13 +204,14 @@ public class ReservationWindow extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtCustName)
-                                .addComponent(txtCellPhone)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(cbQuickCheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnReserve))))))
+                            .addComponent(txtCustName)
+                            .addComponent(txtCellPhone)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(cbQuickCheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtTableNum)
+                                    .addComponent(btnReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -240,8 +244,10 @@ public class ReservationWindow extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbQuickCheckin)
-                    .addComponent(btnReserve))
-                .addContainerGap(80, Short.MAX_VALUE))
+                    .addComponent(txtTableNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(btnReserve)
+                .addGap(40, 40, 40))
         );
 
         pack();
@@ -420,10 +426,13 @@ public class ReservationWindow extends javax.swing.JDialog {
         {
             e.printStackTrace();
         }
-        int compareResult = Calendar.getInstance().getTime().compareTo(dateTime);
+        Calendar cal=Calendar.getInstance();
+        cal.add(Calendar.DATE,-1);
+        Date yesterday=cal.getTime();
+        int compareResult = yesterday.compareTo(dateTime);
         if(compareResult==1)
         {
-            JOptionPane.showMessageDialog(null,"Please select future days");
+            JOptionPane.showMessageDialog(null,"Please select future day");
         }
         else
         {
@@ -475,7 +484,8 @@ public class ReservationWindow extends javax.swing.JDialog {
         String tableSize = (String)availableTables.getModel().getValueAt(row,
                         0);
         String size = tableSize;
-        boolean result = makeReservation(custName, cellPhone, date, time, size, tableSize);
+        String tableNum = txtTableNum.getText();
+        boolean result = makeReservation(custName, cellPhone, date, time, size, tableSize, tableNum);
         if(result)
         {
             JOptionPane.showMessageDialog(null,"Reserve Successfully!");
@@ -486,7 +496,7 @@ public class ReservationWindow extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnReserveMouseClicked
 
-    private boolean makeReservation(String name, String phone, String date, String time, String size, String tableSize)
+    private boolean makeReservation(String name, String phone, String date, String time, String size, String tableSize, String tableNum)
     {
         Connection cn = null;
         Statement stmt = null;
@@ -529,6 +539,7 @@ public class ReservationWindow extends javax.swing.JDialog {
             ResultSet rs = stmt.executeQuery(sql);
             if(rs.next())
             {
+                JOptionPane.showMessageDialog(null,"Reservation Exists!");
                 return false;
             }
         } catch (SQLException ex) {
@@ -541,6 +552,25 @@ public class ReservationWindow extends javax.swing.JDialog {
         
         if(cbQuickCheckin.isSelected())
         {
+            String sql4 = "SELECT * FROM Reservation where Time=" 
+                + "'" + time + "'" + "and TableNumber=" + "'" + tableNum + "'" + 
+                "and Date=" + "'" + date + "'";
+            
+            try {
+            ResultSet rs = stmt.executeQuery(sql4);
+            if(rs.next())
+            {
+                JOptionPane.showMessageDialog(null,"Table Occupied!");
+                return false;
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(ReservationWindow.class.getName()).
+                        log(Level.SEVERE,
+                        null,
+                        ex);
+                return false;
+            }
+            
             String sql2 = "SELECT * FROM waiter where " +
                     "Capability > 0 order by Capability desc" ;
             
@@ -581,7 +611,7 @@ public class ReservationWindow extends javax.swing.JDialog {
                 "`Waiter`, `TableNumber`, `TableSize`, `Date`) VALUES " + 
                 "(" + "'" +name + "'" +"," + "'" +phone + "'" +"," + "'" + 
                 time + "'" + "," + "'" + size + "'" + "," + "'" + waiterName + "'"
-                + "," + "'" +null + "'" + "," + "'" + tableSize + "'" + "," + 
+                + "," + "'" +tableNum + "'" + "," + "'" + tableSize + "'" + "," + 
                 "'" + date + "'" + ")";
         try {
             stmt.execute(sql1);
@@ -693,5 +723,6 @@ public class ReservationWindow extends javax.swing.JDialog {
     private javax.swing.JTextField txtCellPhone;
     private javax.swing.JTextField txtCustName;
     private javax.swing.JTextField txtDate;
+    private javax.swing.JTextField txtTableNum;
     // End of variables declaration//GEN-END:variables
 }

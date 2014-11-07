@@ -46,13 +46,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel3" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtCustName" max="32767" attributes="0"/>
-                              <Component id="txtCellPhone" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="cbQuickCheckin" max="32767" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="btnReserve" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCustName" max="32767" attributes="0"/>
+                          <Component id="txtCellPhone" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="cbQuickCheckin" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="txtTableNum" max="32767" attributes="0"/>
+                                  <Component id="btnReserve" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -97,9 +98,11 @@
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cbQuickCheckin" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnReserve" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtTableNum" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="80" max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <Component id="btnReserve" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -256,6 +259,11 @@
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
         <Property name="text" type="java.lang.String" value="e.g. 1234567890"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtTableNum">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txtTableNumber" noResource="true"/>
       </Properties>
     </Component>
   </SubComponents>
