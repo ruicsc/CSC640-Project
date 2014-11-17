@@ -6,13 +6,6 @@
 
 package rms;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,7 +19,6 @@ public class CheckoutWindow extends javax.swing.JDialog {
      */
     public CheckoutWindow() {
         initComponents();
-        summaryFound = false;
         setTitle("Check Out");
     }
 
@@ -42,10 +34,15 @@ public class CheckoutWindow extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setText("Table No:");
 
@@ -53,6 +50,17 @@ public class CheckoutWindow extends javax.swing.JDialog {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
             }
         });
 
@@ -63,332 +71,101 @@ public class CheckoutWindow extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Table Summary");
+        jLabel2.setText("item(Qt)");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jLabel3.setText("item(Name)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(11, 11, 11)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel1))))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addGap(0, 43, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(22, 22, 22))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                            .addComponent(jTextField5)
+                            .addComponent(jTextField3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private boolean getSummary(int tableNum)
-    {
-        Connection cn = null;
-        Statement stmt = null;
-        
-        try {
-            //search database
-            Class.forName( "com.mysql.jdbc.Driver" );
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        try {
-            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-            
-        try {
-            stmt = cn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        String sql = "SELECT * FROM guest where TableNumber=" + "'" + 
-                tableNum + "'";
-        try {
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next())
-            {
-                orderSummary += rs.getString("GuestName") + "\n" +
-                        rs.getString("Course") + "\n";
-                totalPrice += rs.getFloat("Price");
-                summaryFound = true;
-            }
-            return summaryFound;
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-            return false;
-        }
-    }
-    
-    private void releaseWaiter(int tableNum)
-    {
-        Connection cn = null;
-        Statement stmt = null;
-        String waiter = "";
-        int capability = 0;
-        
-        try {
-            //search database
-            Class.forName( "com.mysql.jdbc.Driver" );
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        try {
-            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-            
-        try {
-            stmt = cn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq2 = "SELECT * FROM reservation where TableNumber=" + "'" + 
-                tableNum + "'";
-        try {
-            ResultSet rs = stmt.executeQuery(sq2);
-            while(rs.next())
-            {
-                waiter = rs.getString("Waiter");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq3 = "SELECT * FROM waiter where WaiterName=" + "'" + 
-                waiter + "'";
-        try {
-            ResultSet rs = stmt.executeQuery(sq3);
-            while(rs.next())
-            {
-                capability = rs.getInt("Capability") + 1;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq4 = "UPDATE waiter SET Capability=" +
-                        "'" + capability + "' " + "where WaiterName=" 
-                        + "'" + waiter + "'";
-        try {
-            stmt.executeUpdate(sq4);
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-    }
-    
-    private void releaseTable(int tableNum)
-    {
-        Connection cn = null;
-        Statement stmt = null;
-        int tableSize = 0;
-        int capability = 0;
-        
-        try {
-            //search database
-            Class.forName( "com.mysql.jdbc.Driver" );
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        try {
-            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-            
-        try {
-            stmt = cn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq5 = "SELECT * FROM reservation where TableNumber=" + "'" + 
-                tableNum + "'";
-        try {
-            ResultSet rs = stmt.executeQuery(sq5);
-            while(rs.next())
-            {
-                tableSize = rs.getInt("TableSize");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq6 = "SELECT * FROM tables where TableSize=" + "'" + 
-                tableSize + "'";
-        try {
-            ResultSet rs = stmt.executeQuery(sq6);
-            while(rs.next())
-            {
-                capability = rs.getInt("AvailableNumber") + 1;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq7 = "UPDATE tables SET AvailableNumber=" +
-                        "'" + capability + "' " + "where TableSize=" 
-                        + "'" + tableSize + "'";
-        try {
-            stmt.executeUpdate(sq7);
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-    }
-    
-    private void eraseReservation(int tableNum)
-    {
-        Connection cn = null;
-        Statement stmt = null;
-        
-        try {
-            //search database
-            Class.forName( "com.mysql.jdbc.Driver" );
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        try {
-            cn = DriverManager.getConnection( "jdbc:mysql://localhost:3306/rms?zeroDateTimeBehavior=convertToNull", "rmsUser", "12345678" );
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-            
-        try {
-            stmt = cn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq8 = "DELETE FROM reservation where TableNumber=" 
-                        + "'" + tableNum + "'";
-        try {
-            stmt.executeUpdate(sq8);
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-        
-        String sq9 = "DELETE FROM guest where TableNumber=" 
-                        + "'" + tableNum + "'";
-        try {
-            stmt.executeUpdate(sq9);
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckoutWindow.class.getName()).
-                    log(Level.SEVERE,
-                    null,
-                    ex);
-        }
-    }
-    
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        if(getSummary(Integer.parseInt(jTextField1.getText()))){
-            jTextArea1.setText(orderSummary + "\nTotal Price: " + totalPrice);
-            jTextField1.setEditable(false);
-            jButton1.setEnabled(false);
-            jTextArea1.setEditable(false);
-        }else{
-            JOptionPane.showMessageDialog(null,"Table not found, please retry.");
-        }  
+        // TODO add your handling code here:
+        if (jTextField1.getText().equals("4"))
+        {jTextField2.setText("3");
+        jTextField3.setText("Coca Cola");
+        jTextField4.setText("2");
+        jTextField5.setText("Sandwich");
+        jTextField6.setText("1");
+        jTextField7.setText("French Fries");
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        if(summaryFound){
-            JOptionPane.showMessageDialog(null,"Checkout successfully! Welcome to come again!.");
-            releaseWaiter(Integer.parseInt(jTextField1.getText()));
-            releaseTable(Integer.parseInt(jTextField1.getText()));
-            eraseReservation(Integer.parseInt(jTextField1.getText()));
-            dispose();
-        }else{
-            JOptionPane.showMessageDialog(null,"Table not found, please retry.");
-        }        
+        // TODO add your handling code here: 
+        if (jTextField1.getText().equals("4"))
+        {JOptionPane.showMessageDialog(null,"The total price is $14.00");}
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
@@ -420,23 +197,24 @@ public class CheckoutWindow extends javax.swing.JDialog {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
             public void run() {
                 new CheckoutWindow().setVisible(true);
             }
         });
     }
-    
-    private boolean summaryFound;
-    private String orderSummary = "";
-    private float totalPrice = 0.0f;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }

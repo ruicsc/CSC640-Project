@@ -289,7 +289,7 @@ public class OrderWindow extends javax.swing.JDialog {
             if (customerNum != 8 && customerNum != 1 && customerNum != 2 &&
                     customerNum != 3 && customerNum != 4 && customerNum != 5 &&
                     customerNum != 6 && customerNum != 7){
-                JOptionPane.showMessageDialog(null,"Waiter name or table number is incorrect, please try again.");
+            JOptionPane.showMessageDialog(null,"Waiter name or table number is incorrect, please try again.");
             }else{
                 if(customerNum == 1){
                     javax.swing.JTextField jTextField3 = new javax.swing.JTextField();
