@@ -6,6 +6,8 @@
 
 package rms;
 
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,32 +18,34 @@ public class MenuWindow extends javax.swing.JDialog {
 
     /**
      * Creates new form MenuWindow
+     * @param orderSummary
      */
-    public MenuWindow() {
+    public MenuWindow(JTextArea orderSummary) {
         initComponents();
+        
+        summary = orderSummary;
+        setTitle("Menu");
         
         DefaultTableModel tableModel1 = (DefaultTableModel) jTable2.getModel();
         tableModel1.setRowCount(0);
         
-        tableModel1.addRow(new String[] {"Chicken Wings","$3.00"});
-        tableModel1.addRow(new String[] {"Frech Fries","$2.00"});
-        tableModel1.addRow(new String[] {"Chicken Nuggets","$3.00"});
+        tableModel1.addRow(new String[] {"Chicken Wings","3.00","0"});
+        tableModel1.addRow(new String[] {"Frech Fries","2.00","0"});
+        tableModel1.addRow(new String[] {"Chicken Nuggets","3.00","0"});
         
         DefaultTableModel tableModel2 = (DefaultTableModel) jTable3.getModel();
         tableModel2.setRowCount(0);
         
-        tableModel2.addRow(new String[] {"Beef Ramen","$7.00"});
-        tableModel2.addRow(new String[] {"Egg Fry Rice","$6.00"});
-        tableModel2.addRow(new String[] {"Beef Pho","$8.00"});
+        tableModel2.addRow(new String[] {"Beef Ramen","7.00","0"});
+        tableModel2.addRow(new String[] {"Egg Fry Rice","6.00","0"});
+        tableModel2.addRow(new String[] {"Beef Pho","8.00","0"});
         
         DefaultTableModel tableModel3 = (DefaultTableModel) jTable1.getModel();
         tableModel3.setRowCount(0);
         
-        tableModel3.addRow(new String[] {"Coconut Ice Cream","$5.00"});
-        tableModel3.addRow(new String[] {"Lemon Shake","$4.00"});
-        tableModel3.addRow(new String[] {"Cookies","$2.00"});
-        
-        setTitle("Order");
+        tableModel3.addRow(new String[] {"Coconut Ice Cream","5.00","0"});
+        tableModel3.addRow(new String[] {"Lemon Shake","4.00","0"});
+        tableModel3.addRow(new String[] {"Cookies","2.00","0"});
     }
 
     /**
@@ -69,10 +73,6 @@ public class MenuWindow extends javax.swing.JDialog {
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null}
             },
             new String [] {
@@ -95,9 +95,6 @@ public class MenuWindow extends javax.swing.JDialog {
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null}
             },
             new String [] {
@@ -118,7 +115,6 @@ public class MenuWindow extends javax.swing.JDialog {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null}
@@ -182,7 +178,33 @@ public class MenuWindow extends javax.swing.JDialog {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        dispose();
+        try{
+            for (int i = 0; i < 3; i++){
+                if (!jTable1.getValueAt(i, 2).toString().equals("0")){
+                    order = order + jTable1.getValueAt(i, 0) + "*" +
+                            jTable1.getValueAt(i, 2) + ";";
+                    price += Float.parseFloat(jTable1.getValueAt(i, 1).toString()) * 
+                            Float.parseFloat(jTable1.getValueAt(i, 2).toString());
+                }
+                if (!jTable2.getValueAt(i, 2).toString().equals("0")){
+                    order = order + jTable2.getValueAt(i, 0) + "*" +
+                            jTable2.getValueAt(i, 2) + ";";
+                    price += Float.parseFloat(jTable2.getValueAt(i, 1).toString()) * 
+                            Float.parseFloat(jTable2.getValueAt(i, 2).toString());
+                }
+                if (!jTable3.getValueAt(i, 2).toString().equals("0")){
+                    order = order + jTable3.getValueAt(i, 0) + "*" +
+                            jTable3.getValueAt(i, 2) + ";";
+                    price += Float.parseFloat(jTable3.getValueAt(i, 1).toString()) * 
+                            Float.parseFloat(jTable3.getValueAt(i, 2).toString());
+                }
+            }
+            
+            summary.setText(order + "Total:" + price);
+            setVisible(false);
+        }catch (NullPointerException e){
+            JOptionPane.showMessageDialog(null,"Incorrect input on quantity.");
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**
@@ -216,7 +238,7 @@ public class MenuWindow extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MenuWindow dialog = new MenuWindow();
+                MenuWindow dialog = new MenuWindow(summary);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -239,4 +261,7 @@ public class MenuWindow extends javax.swing.JDialog {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
+    public String order = "";
+    public float price;
+    private static JTextArea summary;
 }

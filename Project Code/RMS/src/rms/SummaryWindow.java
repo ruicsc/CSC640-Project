@@ -2,10 +2,6 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- *//*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
  */
 
 package rms;
@@ -18,10 +14,12 @@ public class SummaryWindow extends javax.swing.JDialog {
 
     /**
      * Creates new form NewJDialog
+     * @param orderDetail The order detail passed from OrderWindow
      */
-    public SummaryWindow() {
+    public SummaryWindow(String orderDetail) {
         initComponents();
-        
+        detail = orderDetail;
+        jTextArea1.setText(detail);
         setTitle("Order");
     }
 
@@ -44,7 +42,6 @@ public class SummaryWindow extends javax.swing.JDialog {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Beef Ramen * 2\nCoconut Ice Cream * 1\nChicken Wings *1");
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Print");
@@ -127,7 +124,7 @@ public class SummaryWindow extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SummaryWindow dialog = new SummaryWindow();
+                SummaryWindow dialog = new SummaryWindow(detail);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -139,6 +136,7 @@ public class SummaryWindow extends javax.swing.JDialog {
         });
     }
 
+    private static String detail;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
