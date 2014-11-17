@@ -67,6 +67,9 @@ public class ReservationWindow extends javax.swing.JDialog {
         cbQuickCheckin = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         txtTableNum = new javax.swing.JTextField();
+        txtGroupSize = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setLocationByPlatform(true);
 
@@ -174,10 +177,31 @@ public class ReservationWindow extends javax.swing.JDialog {
         });
 
         cbQuickCheckin.setText("Quick Checkin");
+        cbQuickCheckin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbQuickCheckinMouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("e.g. 1234567890");
 
         txtTableNum.setName("txtTableNumber"); // NOI18N
+        txtTableNum.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtTableNumCaretUpdate(evt);
+            }
+        });
+
+        txtGroupSize.setName("txtTableNumber"); // NOI18N
+        txtGroupSize.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtGroupSizeCaretUpdate(evt);
+            }
+        });
+
+        jLabel4.setText("Group Size");
+
+        jLabel5.setText("Table No.");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,18 +224,27 @@ public class ReservationWindow extends javax.swing.JDialog {
                         .addGap(115, 115, 115)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbQuickCheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtCustName)
                             .addComponent(txtCellPhone)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(cbQuickCheckin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtTableNum)
-                                    .addComponent(btnReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtGroupSize)
+                                        .addGap(24, 24, 24))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(58, 58, 58)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtTableNum)
+                                        .addComponent(btnReserve, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                 .addContainerGap(20, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -244,10 +277,15 @@ public class ReservationWindow extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbQuickCheckin)
-                    .addComponent(txtTableNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                    .addComponent(txtTableNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGroupSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(btnReserve)
-                .addGap(40, 40, 40))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -483,7 +521,7 @@ public class ReservationWindow extends javax.swing.JDialog {
         int row = availableTables.getSelectedRow();
         String tableSize = (String)availableTables.getModel().getValueAt(row,
                         0);
-        String size = tableSize;
+        String size = txtGroupSize.getText();
         String tableNum = txtTableNum.getText();
         boolean result = makeReservation(custName, cellPhone, date, time, size, tableSize, tableNum);
         if(result)
@@ -605,6 +643,11 @@ public class ReservationWindow extends javax.swing.JDialog {
                 return false;
             }
         }
+        else
+        {
+            tableNum = "";
+            size = "";
+        }
             
         String sql1 = "INSERT INTO Reservation " +
                 "(`CustName`, `Phone`, `Time`, `GroupSize`, " +
@@ -659,6 +702,52 @@ public class ReservationWindow extends javax.swing.JDialog {
         setReserveButtonEnable();
     }//GEN-LAST:event_cbSizeItemStateChanged
 
+    private void cbQuickCheckinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbQuickCheckinMouseClicked
+        // TODO add your handling code here:
+        checkQuickCheckinInfo();
+    }//GEN-LAST:event_cbQuickCheckinMouseClicked
+
+    private void txtGroupSizeCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtGroupSizeCaretUpdate
+        // TODO add your handling code here:
+        checkQuickCheckinInfo();
+    }//GEN-LAST:event_txtGroupSizeCaretUpdate
+
+    private void txtTableNumCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtTableNumCaretUpdate
+        // TODO add your handling code here:
+        checkQuickCheckinInfo();
+    }//GEN-LAST:event_txtTableNumCaretUpdate
+
+    private void checkQuickCheckinInfo()
+    {
+        if(cbQuickCheckin.isSelected())
+        {
+            int tableNum = -1;
+            int groupSize = -1;
+            try
+            {
+                tableNum = Integer.parseInt(txtTableNum.getText());
+                groupSize = Integer.parseInt(txtGroupSize.getText());
+            }
+            catch(Exception e)
+            {
+                btnReserve.setEnabled(false);
+                return;
+            }
+            if(tableNum>8||tableNum<1||groupSize>8||groupSize<1)
+            {
+                btnReserve.setEnabled(false);
+            }
+            else
+            {
+                setReserveButtonEnable();
+            }
+        }
+        else
+        {
+            setReserveButtonEnable();
+        }
+    }
+    
     private void setReserveButtonEnable()
     {
         int selectRows=availableTables.getSelectedRows().length;
@@ -718,11 +807,14 @@ public class ReservationWindow extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private rms.MyCalendar myCalendar2;
     private javax.swing.JTextField txtCellPhone;
     private javax.swing.JTextField txtCustName;
     private javax.swing.JTextField txtDate;
+    private javax.swing.JTextField txtGroupSize;
     private javax.swing.JTextField txtTableNum;
     // End of variables declaration//GEN-END:variables
 }
