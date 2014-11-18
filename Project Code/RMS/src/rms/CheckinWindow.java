@@ -419,6 +419,8 @@ public class CheckinWindow extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null,"Group size can't be bigger than " + tableSize + ".");
         }else if(isOccupied(Integer.parseInt(jTextField4.getText()))){
             JOptionPane.showMessageDialog(null,"Table " + jTextField4.getText() + " is occupied, please retry.");
+        }else if(Integer.parseInt(jTextField4.getText()) > 18 || Integer.parseInt(jTextField4.getText()) < 1){
+            JOptionPane.showMessageDialog(null,"Table number should be from 1 to 18.");
         }else if(!getAvailableTable()){
             JOptionPane.showMessageDialog(null,"Table of size " + tableSize + " is full, please wait a moment.");
         }else if(isCheckedIn(jTextField1.getText(), jTextField2.getText())){

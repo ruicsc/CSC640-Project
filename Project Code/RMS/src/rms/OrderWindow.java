@@ -43,10 +43,8 @@ public class OrderWindow extends javax.swing.JDialog {
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-
-        jTextField1.setText("josh");
-
-        jTextField2.setText("2");
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jButton1.setText("Submit");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -62,31 +60,44 @@ public class OrderWindow extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Waiter");
+
+        jLabel2.setText("Table No.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(51, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addContainerGap(245, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,49 +117,49 @@ public class OrderWindow extends javax.swing.JDialog {
                 orderDetail = orderDetail + "Guest1\n" + jTextArea1.getText() + "\n";
             }
 
-            if(!jTextArea2.getText().equals("")){
+            if(jTextArea2 != null && !jTextArea2.getText().equals("")){
                 String[] temp = jTextArea2.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest2", jTextArea2.getText(), price);
                 orderDetail = orderDetail + "Guest2\n" + jTextArea2.getText() + "\n";
             }
 
-            if(!jTextArea3.getText().equals("")){
+            if(jTextArea3 != null && !jTextArea3.getText().equals("")){
                 String[] temp = jTextArea3.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest3", jTextArea3.getText(), price);
                 orderDetail = orderDetail + "Guest3\n" + jTextArea3.getText() + "\n";
             }
 
-            if(!jTextArea4.getText().equals("")){
+            if(jTextArea4 != null && !jTextArea4.getText().equals("")){
                 String[] temp = jTextArea4.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest4", jTextArea4.getText(), price);
                 orderDetail = orderDetail + "Guest4\n" + jTextArea4.getText() + "\n";
             }
 
-            if(!jTextArea5.getText().equals("")){
+            if(jTextArea5 != null && !jTextArea5.getText().equals("")){
                 String[] temp = jTextArea5.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest5", jTextArea5.getText(), price);
                 orderDetail = orderDetail + "Guest5\n" + jTextArea5.getText() + "\n";
             }
 
-            if(!jTextArea6.getText().equals("")){
+            if(jTextArea6 != null && !jTextArea6.getText().equals("")){
                 String[] temp = jTextArea6.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest6", jTextArea6.getText(), price);
                 orderDetail = orderDetail + "Guest6\n" + jTextArea6.getText() + "\n";
             }
 
-            if(!jTextArea7.getText().equals("")){
+            if(jTextArea7 != null && !jTextArea7.getText().equals("")){
                 String[] temp = jTextArea7.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest7", jTextArea7.getText(), price);
                 orderDetail = orderDetail + "Guest7\n" + jTextArea7.getText() + "\n";
             }
 
-            if(!jTextArea8.getText().equals("")){
+            if(jTextArea8 != null && !jTextArea8.getText().equals("")){
                 String[] temp = jTextArea8.getText().split(":");
                 float price = Float.parseFloat(temp[1]);
                 setOrder("Guest8", jTextArea8.getText(), price);
@@ -1543,6 +1554,8 @@ public class OrderWindow extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
